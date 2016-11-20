@@ -4,7 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DBHandler extends SQLiteOpenHelper {
+import java.io.Serializable;
+
+public class DBHandler extends SQLiteOpenHelper implements Serializable{
 
     // Database Version
     private static final int DATABASE_VERSION = 1;
@@ -16,13 +18,12 @@ public class DBHandler extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
 
         // Create Tables
         db.execSQL(
-                "CREATE TABLE IF NOT EXISTS Account(" +
+                "CREATE TABLE Account(" +
                 "accountNo VARCHAR PRIMARY KEY, " +
                 "bankName VARCHAR, " +
                 "accountHolderName VARCHAR, " +
@@ -30,8 +31,8 @@ public class DBHandler extends SQLiteOpenHelper {
         );
 
         db.execSQL(
-                "CREATE TABLE IF NOT EXISTS TransactionLog(" +
-                "date DATE, " +
+                "CREATE TABLE TransactionLog(" +
+                "date INT, " +
                 "accountNo VARCHAR, " +
                 "expenseType VARCHAR, " +
                 "amount DOUBLE, " +
@@ -43,8 +44,8 @@ public class DBHandler extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
-        db.execSQL("DELETE TABLE IF EXISTS Account");
-        db.execSQL("DELETE TABLE IF EXISTS TransactionLog");
+        db.execSQL("DROP TABLE IF EXISTS Account");
+        db.execSQL("DROP TABLE IF EXISTS TransactionLog");
 
         // Create tables again
         onCreate(db);

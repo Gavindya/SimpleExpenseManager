@@ -88,7 +88,7 @@ public class PersistantAccountDAO implements AccountDAO {
     @Override
     public void addAccount(Account account) {
         sql_db = dbHelper.getWritableDatabase();
-        String query = "INSERT INTO Account VALUES (?, ?, ?, ?)";
+        String query = "INSERT OR IGNORE INTO Account VALUES (?, ?, ?, ?)";
         sql_db.execSQL(query, new Object[]{
                 account.getAccountNo(),
                 account.getBankName(),
