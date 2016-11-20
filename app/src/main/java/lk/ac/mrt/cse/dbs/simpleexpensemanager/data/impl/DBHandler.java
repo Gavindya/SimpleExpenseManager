@@ -25,6 +25,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     //Transaction table columns
     public static final String KEY_DATE = "date";
+    public static final String KEY_EXPENSE_TYPE = "expenseType";
     public static final String KEY_AMOUNT = "amount";
 
     public DBHandler(Context context) {
@@ -38,6 +39,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     private static final String CREATE_TRANSACTION_TABLE = "CREATE TABLE " + TABLE_TRANSACTION + "("
             + KEY_DATE+ " DATE," + KEY_AMOUNT + " DOUBLE,"
+            + KEY_EXPENSE_TYPE + " VARCHAR,"
             + KEY_ACCOUNT_NO +","
             +"FOREIGN KEY (" + KEY_ACCOUNT_NO + ") REFERENCES " +
             TABLE_ACCOUNT + "(" + KEY_ACCOUNT_NO + "))";

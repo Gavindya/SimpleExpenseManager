@@ -19,7 +19,6 @@ public class PersistantAccountDAO implements AccountDAO {
     private SQLiteOpenHelper dbHelper;
 
     public PersistantAccountDAO(Context context) {
-
         this.dbHelper = new DBHandler(context);
     }
 
@@ -27,9 +26,7 @@ public class PersistantAccountDAO implements AccountDAO {
     public List<String> getAccountNumbersList() {
         List<String> results = new ArrayList<>();
         sql_db = dbHelper.getReadableDatabase();
-        String query = String.format(
-                "SELECT "+DBHandler.KEY_ACCOUNT_NO+
-                "FROM "+DBHandler.TABLE_ACCOUNT);
+        String query ="SELECT accountNo FROM Account";
         final Cursor cursor = sql_db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
@@ -46,8 +43,7 @@ public class PersistantAccountDAO implements AccountDAO {
 
         List<Account> results = new ArrayList<>();
         sql_db = dbHelper.getReadableDatabase();
-        String query = String.format(
-                "SELECT * FROM "+DBHandler.TABLE_ACCOUNT);
+        String query = "SELECT * FROM Account";
         final Cursor cursor = sql_db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
@@ -72,9 +68,7 @@ public class PersistantAccountDAO implements AccountDAO {
         String accountHolderName;
         double balance;
         sql_db = dbHelper.getReadableDatabase();
-        String query = String.format(
-                "SELECT * FROM "+DBHandler.TABLE_ACCOUNT)+
-                " WHERE accountNo="+accountNo;
+        String query = "SELECT * FROM Account WHERE accountNo="+accountNo;
         final Cursor cursor = sql_db.rawQuery(query, new String[]{accountNo});
         if (cursor.moveToFirst()) {
             bankName=cursor.getString(1);
@@ -92,9 +86,7 @@ public class PersistantAccountDAO implements AccountDAO {
     @Override
     public void addAccount(Account account) {
         sql_db = dbHelper.getWritableDatabase();
-        String query = String.format(
-                "INSERT INTO "+DBHandler.TABLE_ACCOUNT)+
-                " VALUES ("+account.getAccountNo()+","
+        String query = "INSERT INTO Account VALUES ("+account.getAccountNo()+","
                 +account.getBankName()+","
                 +account.getAccountHolderName()+","
                 +account.getBalance()+");";
@@ -104,9 +96,7 @@ public class PersistantAccountDAO implements AccountDAO {
     @Override
     public void removeAccount(String accountNo) throws InvalidAccountException {
         sql_db = dbHelper.getReadableDatabase();
-        String query = String.format(
-                "DELETE FROM "+DBHandler.TABLE_ACCOUNT+
-                "WHERE accountNo =" +accountNo);
+        String query ="DELETE FROM Account WHERE accountNo =" +accountNo;
         sql_db.execSQL(query);
     }
 
@@ -121,10 +111,7 @@ public class PersistantAccountDAO implements AccountDAO {
             newBalance=account.getBalance()+amount;
         }
         sql_db = dbHelper.getWritableDatabase();
-        String query = String.format(
-                "UPDATE "+DBHandler.TABLE_ACCOUNT+
-                " SET balance="+newBalance +
-                " WHERE accountNo="+accountNo);
+        String query ="UPDATE Account SET balance="+newBalance + " WHERE accountNo="+accountNo;
         sql_db.execSQL(query);
     }
 }

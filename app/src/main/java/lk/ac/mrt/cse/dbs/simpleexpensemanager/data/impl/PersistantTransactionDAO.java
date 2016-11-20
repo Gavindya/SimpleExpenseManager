@@ -26,9 +26,7 @@ public class PersistantTransactionDAO  implements TransactionDAO {
     @Override
     public void logTransaction(Date date, String accountNo, ExpenseType expenseType, double amount) {
         sql_db = dbHelper.getWritableDatabase();
-        String query = String.format(
-                "INSERT INTO "+DBHandler.TABLE_TRANSACTION)+
-                " VALUES ("+date+","
+        String query ="INSERT INTO TransactionLog VALUES ("+date+","
                 +accountNo+","
                 +expenseType+","
                 +amount+");";
@@ -39,8 +37,7 @@ public class PersistantTransactionDAO  implements TransactionDAO {
     public List<Transaction> getAllTransactionLogs() {
         List<Transaction> results = new ArrayList<>();
         sql_db = dbHelper.getReadableDatabase();
-        String query = String.format(
-                "SELECT * FROM "+DBHandler.TABLE_TRANSACTION);
+        String query ="SELECT * FROM TransactionLog";
         final Cursor cursor = sql_db.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
